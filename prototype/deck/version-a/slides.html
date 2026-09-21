@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partial Differential Equations — Version A (Standard)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a2e; }
+  .slide {
+    width: 960px; min-height: 540px; margin: 40px auto;
+    background: white; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    padding: 60px 70px; position: relative; page-break-after: always;
+  }
+  .slide-number {
+    position: absolute; bottom: 20px; right: 30px;
+    font-size: 12px; color: #999;
+  }
+  h1 { font-size: 36px; margin-bottom: 10px; color: #1a1a2e; }
+  h2 { font-size: 28px; margin-bottom: 20px; color: #16213e; border-bottom: 3px solid #e94560; padding-bottom: 8px; display: inline-block; }
+  h3 { font-size: 20px; margin: 15px 0 8px; color: #0f3460; }
+  ul { margin-left: 24px; margin-top: 10px; }
+  li { margin-bottom: 8px; font-size: 18px; line-height: 1.5; }
+  .equation {
+    background: #f8f9fa; border-left: 4px solid #e94560;
+    padding: 15px 20px; margin: 15px 0; font-family: 'Cambria Math', serif;
+    font-size: 20px; border-radius: 0 4px 4px 0;
+  }
+  .table-container { margin: 15px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  th { background: #16213e; color: white; padding: 10px 12px; text-align: left; }
+  td { padding: 10px 12px; border-bottom: 1px solid #ddd; }
+  tr:nth-child(even) { background: #f8f9fa; }
+  .title-slide { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .title-slide h1 { font-size: 44px; color: #16213e; }
+  .title-slide p { font-size: 20px; color: #666; margin-top: 15px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 15px; }
+  .col-box { background: #f8f9fa; padding: 20px; border-radius: 6px; border: 1px solid #e0e0e0; }
+  .col-box h3 { margin-top: 0; }
+  .highlight { color: #e94560; font-weight: bold; }
+  .subtitle { font-size: 16px; color: #888; margin-top: 5px; }
+  .source-note { font-size: 12px; color: #aaa; position: absolute; bottom: 20px; left: 70px; }
+  .diagram-placeholder {
+    background: #f0f2f5; border: 2px dashed #ccc; border-radius: 8px;
+    padding: 40px; text-align: center; color: #999; margin: 15px 0;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide title-slide">
+  <h1>Partial Differential Equations</h1>
+  <p>An Introduction to PDEs</p>
+  <p class="subtitle">Mathematics Department — Lecture 1</p>
+  <div class="slide-number">1</div>
+</div>
+
+<!-- Slide 2: Outline -->
+<div class="slide">
+  <h2>Outline</h2>
+  <ul>
+    <li>What is a PDE?</li>
+    <li>Why PDEs matter</li>
+    <li>The three classical PDEs</li>
+    <li>Classification of PDEs</li>
+    <li>Boundary and initial conditions</li>
+    <li>Solution methods</li>
+    <li>Numerical methods</li>
+    <li>Summary</li>
+  </ul>
+  <div class="slide-number">2</div>
+</div>
+
+<!-- Slide 3: Definition -->
+<div class="slide">
+  <h2>What is a PDE?</h2>
+  <p style="font-size: 18px; line-height: 1.6;">A <span class="highlight">partial differential equation</span> (PDE) is an equation that involves an unknown function of several independent variables and its partial derivatives with respect to those variables.</p>
+  <div class="equation">
+    F(x₁, x₂, ..., xₙ, u, ∂u/∂x₁, ∂u/∂x₂, ..., ∂²u/∂x₁∂x₂, ...) = 0
+  </div>
+  <ul>
+    <li><strong>u</strong> = unknown function (dependent variable)</li>
+    <li><strong>x₁, x₂, ..., xₙ</strong> = independent variables</li>
+    <li><strong>Partial derivatives</strong> = derivatives with respect to one variable, holding others fixed</li>
+  </ul>
+  <div class="slide-number">3</div>
+</div>
+
+<!-- Slide 4: Why PDEs Matter -->
+<div class="slide">
+  <h2>Why PDEs Matter</h2>
+  <p style="font-size: 18px; line-height: 1.6; margin-bottom: 15px;">PDEs are the mathematical language for describing how things change in <span class="highlight">space and time</span>.</p>
+  <ul>
+    <li>Predicting weather and climate</li>
+    <li>Designing aircraft and automobiles</li>
+    <li>Modeling heat transfer in buildings</li>
+    <li>Simulating electrical signals in the brain</li>
+    <li>Understanding financial markets (Black-Scholes)</li>
+    <li>Modeling population dynamics</li>
+  </ul>
+  <div class="slide-number">4</div>
+</div>
+
+<!-- Slide 5: Three Classical PDEs -->
+<div class="slide">
+  <h2>The Three Classical PDEs</h2>
+  <div class="two-col">
+    <div class="col-box">
+      <h3>Heat Equation (Parabolic)</h3>
+      <div class="equation">∂u/∂t = α ∇²u</div>
+      <p>Describes temperature diffusion over time.</p>
+    </div>
+    <div class="col-box">
+      <h3>Wave Equation (Hyperbolic)</h3>
+      <div class="equation">∂²u/∂t² = c² ∇²u</div>
+      <p>Describes wave propagation.</p>
+    </div>
+  </div>
+  <div class="col-box" style="margin-top: 15px; background: #f8f9fa; padding: 20px; border-radius: 6px; border: 1px solid #e0e0e0;">
+    <h3>Laplace Equation (Elliptic)</h3>
+    <div class="equation">∇²u = 0</div>
+    <p>Describes steady-state equilibrium.</p>
+  </div>
+  <div class="slide-number">5</div>
+</div>
+
+<!-- Slide 6: Classification -->
+<div class="slide">
+  <h2>Classification of PDEs</h2>
+  <p style="font-size: 18px; margin-bottom: 15px;">For a second-order linear PDE in two variables:</p>
+  <div class="equation">
+    A ∂²u/∂x² + 2B ∂²u/∂x∂y + C ∂²u/∂y² + ... = 0
+  </div>
+  <p style="font-size: 18px; margin-top: 15px;">Classification depends on the discriminant <strong>B² - AC</strong>:</p>
+  <div class="table-container">
+    <table>
+      <tr><th>Condition</th><th>Type</th><th>Example</th></tr>
+      <tr><td>B² - AC < 0</td><td>Elliptic</td><td>Laplace equation</td></tr>
+      <tr><td>B² - AC = 0</td><td>Parabolic</td><td>Heat equation</td></tr>
+      <tr><td>B² - AC > 0</td><td>Hyperbolic</td><td>Wave equation</td></tr>
+    </table>
+  </div>
+  <div class="slide-number">6</div>
+</div>
+
+<!-- Slide 7: Boundary Conditions -->
+<div class="slide">
+  <h2>Boundary and Initial Conditions</h2>
+  <p style="font-size: 18px; line-height: 1.6; margin-bottom: 15px;">A PDE alone does not determine a unique solution. You need additional conditions:</p>
+  <ul>
+    <li><strong>Initial conditions:</strong> u(x, 0) = f(x) — the initial state</li>
+    <li><strong>Boundary conditions:</strong> What happens at the edges of the domain</li>
+  </ul>
+  <h3>Types of Boundary Conditions</h3>
+  <ul>
+    <li><strong>Dirichlet:</strong> u is specified on the boundary</li>
+    <li><strong>Neumann:</strong> ∂u/∂n is specified on the boundary</li>
+    <li><strong>Robin:</strong> A combination of u and ∂u/∂n</li>
+  </ul>
+  <div class="slide-number">7</div>
+</div>
+
+<!-- Slide 8: Solution Methods -->
+<div class="slide">
+  <h2>Solution Methods</h2>
+  <h3>Separation of Variables</h3>
+  <p style="font-size: 18px; line-height: 1.6;">Assume u(x,t) = X(x)·T(t). Substitute into the PDE to get two ODEs.</p>
+  <div class="equation">
+    u(x,t) = Σ Bₙ sin(nπx/L) e^{-α(nπ/L)²t}
+  </div>
+  <h3 style="margin-top: 20px;">Numerical Methods</h3>
+  <ul>
+    <li><strong>Finite Difference Methods (FDM):</strong> Replace derivatives with differences on a grid</li>
+    <li><strong>Finite Element Methods (FEM):</strong> Approximate using piecewise polynomials</li>
+    <li><strong>Finite Volume Methods (FVM):</strong> Conservation laws on control volumes</li>
+  </ul>
+  <div class="slide-number">8</div>
+</div>
+
+<!-- Slide 9: Summary -->
+<div class="slide">
+  <h2>Summary</h2>
+  <ul>
+    <li>PDEs involve unknown functions of multiple variables and their partial derivatives</li>
+    <li>Three classical types: Heat (parabolic), Wave (hyperbolic), Laplace (elliptic)</li>
+    <li>Classification determines solution methods and physical behavior</li>
+    <li>Boundary and initial conditions are required for unique solutions</li>
+    <li>Solution methods include separation of variables, Fourier analysis, and numerical methods</li>
+    <li>PDEs are essential for modeling real-world phenomena</li>
+  </ul>
+  <div class="slide-number">9</div>
+</div>
+
+<!-- Slide 10: References -->
+<div class="slide">
+  <h2>References</h2>
+  <ul>
+    <li>Evans, L.C. <em>Partial Differential Equations</em>. AMS, 2010.</li>
+    <li>Strauss, W.A. <em>Partial Differential Equations: An Introduction</em>. Wiley, 2007.</li>
+    <li>John, F. <em>Partial Differential Equations</em>. Springer, 1982.</li>
+    <li>Boyd, J.P. <em>Chebyshev and Fourier Spectral Methods</em>. Dover, 2001.</li>
+  </ul>
+  <div class="source-note">Source: pde-introduction.md</div>
+  <div class="slide-number">10</div>
+</div>
+
+</body>
+</html>
